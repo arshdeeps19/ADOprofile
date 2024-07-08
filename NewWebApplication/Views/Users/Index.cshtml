@@ -1,0 +1,49 @@
+﻿@model IEnumerable<NewWebApplication.Models.User>
+
+@{
+    ViewBag.Title = "User List";
+}
+
+<h2>User List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(user.ImagePath))
+                    {
+                        <img src="@Url.Content(user.ImagePath)" alt="User Image" class="img-circle" />
+                    }
+                    else
+                    {
+                        <img src="@Url.Content("~/Images/default-avatar.png")" alt="Default Image" class="img-circle" />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Styles {
+    <style>
+        .img-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+}

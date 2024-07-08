@@ -1,0 +1,71 @@
+﻿@model NewWebApplication.Models.User
+
+@{
+    ViewBag.Title = "Create User";
+}
+
+<div class="container">
+    <h2>Create User</h2>
+    @using (Html.BeginForm("Create", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <!-- Image Upload and Preview Section -->
+        <div class="form-group">
+            <label for="imageFile">Upload Image</label>
+            <input type="file" name="imageFile" id="imageFile" class="form-control" accept="image/*" onchange="previewImage(event)" />
+        </div>
+        <div class="form-group">
+            <img id="imagePreview" src="~/Images/default-avatar.png" alt="Image Preview" class="img-circle" />
+        </div>
+
+        <!-- User Form Fields -->
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName)
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword)
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+        </div>
+        <button type="submit" class="btn btn-primary">Sign up</button>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/bundles/jquery"></script>
+    <script src="~/bundles/jqueryval"></script>
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('imagePreview');
+                output.src = reader.result;
+                output.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+    <style>
+        .img-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 10px 0;
+        }
+    </style>
+}
